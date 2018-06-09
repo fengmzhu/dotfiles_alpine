@@ -5,6 +5,7 @@ use Cwd;
 
 updateGitRepo();
 move_vimrc_out_of_vim_folder();
+instal_vim_plugins();
 my $shellType = $ENV{SHELL};
 my $dotfiles = decideDotfiles($shellType);
 my $binScripts = getBinScripts();
@@ -99,4 +100,18 @@ sub getBinScripts {#{{{
 		"git_diff_wrapper",
 	];
 	return $BIN_SCRIPTS;
+}#}}}
+sub instal_vim_plugins {#{{{
+	if (!-e ".YCM_installed") {
+		system("./vim/pack/feng/opt/YouCompleteMe/install.py");
+		system("touch .YCM_installed");
+	}
+	if (!-e ".command-t_installed") {
+		my $currentPath = getcwd();
+		chdir "vim/pack/feng/opt/command-t/ruby/command-t/ext/command-t";
+		system("ruby extconf.rb");
+		system("make");
+		chdir $currentPath;
+		system("touch .command-t_installed");
+	}
 }#}}}

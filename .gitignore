@@ -1,3 +1,5 @@
 vimrc
 .old_dotfiles*
 .DS_Store
+.YCM_installed
+.command-t_installed
