@@ -39,6 +39,7 @@ sub backupAndSymlinkDotfiles {#{{{
 sub backupAndSymlinkBinScripts {#{{{
 	my ($backupDirPath, $binScripts) = @_;
 	my $backupBinDirPath = $backupDirPath."/bin";
+	system("mkdir -p ~/bin");
 	foreach my $binScript (@$binScripts) {
 		print "backup and symlink ~/bin/$binScript\n";
 		backupHomeBinScript($backupBinDirPath, $binScript);
@@ -91,7 +92,7 @@ sub updateGitRepo {#{{{
 	}
 }#}}}
 sub move_vimrc_out_of_vim_folder {#{{{
-	system("mv vim/vimrc .") if (-e "vim/vimrc");
+	system("cp -n vim/vimrc .");
 }#}}}
 sub getBinScripts {#{{{
 	my $BIN_SCRIPTS = [
