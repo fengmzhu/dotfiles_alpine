@@ -93,7 +93,7 @@ sub updateGitRepo {#{{{
 	}
 }#}}}
 sub move_vimrc_out_of_vim_folder {#{{{
-	system("cp -n vim/vimrc .");
+	system("cp vim/vimrc .") if (!-e "vimrc");
 }#}}}
 sub getBinScripts {#{{{
 	my $BIN_SCRIPTS = [
