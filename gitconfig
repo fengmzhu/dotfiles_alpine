@@ -1,0 +1,11 @@
+[user]
+	email = fengmzhu@gmail.com
+	name = Feng Ming Zhu
+[diff]
+	external = git_diff_wrapper
+[push]
+	default = simple
+[core]
+	pager =
+	editor = vim
+	excludesfile = ~/.gitignore

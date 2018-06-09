@@ -1,0 +1,97 @@
+#!/usr/bin/perl
+use strict;
+use warnings;
+use Cwd;
+
+updateGitRepo();
+my $shellType = $ENV{SHELL};
+my $dotfiles = decideDotfiles($shellType);
+my $binScripts = getBinScripts();
+backupAndSymlink($dotfiles, $binScripts);
+
+sub decideDotfiles {#{{{
+	my ($shellType) = @_;
+	my $BASIC_FILES = [
+		"vimrc",
+		"vim",
+		"tmux.conf",
+		"gitconfig",
+	];
+	my $dotfiles = [];
+	push @$dotfiles, @$BASIC_FILES;
+	return $dotfiles;
+}#}}}
+sub backupAndSymlink {#{{{
+	my ($dotfiles, $binScripts) = @_;
+	my $backupDirPath = createBackupDir(cwd);
+	backupAndSymlinkDotfiles($backupDirPath, $dotfiles);
+	backupAndSymlinkBinScripts($backupDirPath, $binScripts);
+}#}}}
+sub backupAndSymlinkDotfiles {#{{{
+	my ($backupDirPath, $dotfiles) = @_;
+	foreach my $dotfile (@$dotfiles) {
+		print "backup and symlink ~/.$dotfile\n";
+		backupHomeFolderDotfile($backupDirPath, $dotfile);
+		symlinkToHome($dotfile);
+	}
+}#}}}
+sub backupAndSymlinkBinScripts {#{{{
+	my ($backupDirPath, $binScripts) = @_;
+	my $backupBinDirPath = $backupDirPath."/bin";
+	foreach my $binScript (@$binScripts) {
+		print "backup and symlink ~/bin/$binScript\n";
+		backupHomeBinScript($backupBinDirPath, $binScript);
+		symlinkToHomeBin($binScript);
+	}
+}#}}}
+sub backupHomeBinScript {#{{{
+	my ($backupBinDirPath, $binScript) = @_;
+	my $homeBinScriptPath = sprintf "%s/bin/%s", $ENV{"HOME"}, $binScript;
+	if (-e $homeBinScriptPath || lstat $homeBinScriptPath) {
+		system("mv $homeBinScriptPath $backupBinDirPath");
+	}
+}#}}}
+sub symlinkToHomeBin {#{{{
+	my ($binScript) = @_;
+	my $binScriptPath = sprintf "%s/bin/%s", cwd, $binScript;
+	my $homeBinScriptPath = sprintf "%s/bin/%s", $ENV{"HOME"}, $binScript;
+	symlink($binScriptPath, $homeBinScriptPath);
+}#}}}
+sub symlinkToHome {#{{{
+	my ($dotfile) = @_;
+	my $dotfilePath = sprintf "%s/%s", cwd, $dotfile;
+	my $homeDotfilePath = sprintf "%s/.%s", $ENV{"HOME"}, $dotfile;
+	symlink($dotfilePath, $homeDotfilePath);
+}#}}}
+sub backupHomeFolderDotfile {#{{{
+	my ($backupDirPath, $dotfile) = @_;
+	my $homeDotfilePath = sprintf "%s/.%s", $ENV{"HOME"}, $dotfile;
+	if (-e $homeDotfilePath || lstat $homeDotfilePath) {
+		system("mv $homeDotfilePath $backupDirPath");
+	}
+}#}}}
+sub createBackupDir {#{{{
+	my ($currentPath) = @_;
+	my $index = 1;
+	my $backupDir;
+	my $backupDirPath;
+	do {
+		$backupDir = sprintf ".old_dotfiles_%d", $index++;
+		$backupDirPath = "$currentPath/$backupDir";
+	} while (-d $backupDirPath);
+	system("mkdir $backupDirPath");
+	system("mkdir $backupDirPath/bin");
+	return $backupDirPath;
+}#}}}
+sub updateGitRepo {#{{{
+	system("git submodule update --init --recursive");
+	if (@ARGV && $ARGV[0] eq "-gitonly") {
+		exit;
+	}
+}#}}}
+sub getBinScripts {#{{{
+	my $BIN_SCRIPTS = [
+		"git_diff_wrapper",
+	];
+	return $BIN_SCRIPTS;
+}#}}}
