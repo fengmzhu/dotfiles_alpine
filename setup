@@ -5,6 +5,7 @@ use Cwd;
 
 updateGitRepo();
 move_vimrc_out_of_vim_folder();
+setup_zsh_autosuggestions();
 instal_vim_plugins();
 my $shellType = $ENV{SHELL};
 my $dotfiles = decideDotfiles($shellType);
@@ -16,6 +17,8 @@ sub decideDotfiles {#{{{
 	my $BASIC_FILES = [
 		"vimrc",
 		"vim",
+		"zshrc",
+		"oh-my-zsh",
 		"tmux.conf",
 		"gitconfig",
 	];
@@ -115,3 +118,6 @@ sub instal_vim_plugins {#{{{
 		system("touch .command-t_installed");
 	}
 }#}}}
+sub setup_zsh_autosuggestions {
+	system("cp -r zsh/zsh-autosuggestions oh_my_zsh/plugin/") if (!-d "oh_my_zsh/plugin/zsh-autosuggestions");
+}
