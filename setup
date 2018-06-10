@@ -94,7 +94,7 @@ sub updateGitRepo {#{{{
 		exit;
 	}
 }#}}}
-sub move_vimrc_out_of_vim_folder {#{{{
+sub move_rc_out_of_folder {#{{{
 	system("cp vim/vimrc .") if (-d "vim" && !-e "vimrc");
 	system("cp oh-my-zsh/zshrc .") if (-d "oh-my-zsh" && !-e "zshrc");
 }#}}}
