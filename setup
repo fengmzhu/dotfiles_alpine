@@ -4,7 +4,7 @@ use warnings;
 use Cwd;
 
 updateGitRepo();
-move_vimrc_out_of_vim_folder();
+move_rc_out_of_folder();
 instal_vim_plugins();
 my $shellType = $ENV{SHELL};
 my $dotfiles = decideDotfiles($shellType);
@@ -95,7 +95,8 @@ sub updateGitRepo {#{{{
 	}
 }#}}}
 sub move_vimrc_out_of_vim_folder {#{{{
-	system("cp vim/vimrc .") if (!-e "vimrc");
+	system("cp vim/vimrc .") if (-d "vim" && !-e "vimrc");
+	system("cp oh-my-zsh/zshrc .") if (-d "oh-my-zsh" && !-e "zshrc");
 }#}}}
 sub getBinScripts {#{{{
 	my $BIN_SCRIPTS = [
