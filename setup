@@ -119,5 +119,5 @@ sub instal_vim_plugins {#{{{
 	}
 }#}}}
 sub setup_zsh_autosuggestions {
-	system("cp -r zsh/zsh-autosuggestions oh_my_zsh/plugin/") if (!-d "oh_my_zsh/plugin/zsh-autosuggestions");
+	system("cp -r zsh/zsh-autosuggestions oh_my_zsh/plugins/") if (!-d "oh_my_zsh/plugin/zsh-autosuggestions");
 }
