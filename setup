@@ -95,8 +95,8 @@ sub updateGitRepo {#{{{
 	}
 }#}}}
 sub move_rc_out_of_folder {#{{{
-	system("cp vim/vimrc .") if (-d "vim" && !-e "vimrc");
-	system("cp oh-my-zsh/zshrc .") if (-d "oh-my-zsh" && !-e "zshrc");
+	system("ln vim/vimrc .") if (-d "vim" && !-e "vimrc");
+	system("ln oh-my-zsh/zshrc .") if (-d "oh-my-zsh" && !-e "zshrc");
 }#}}}
 sub getBinScripts {#{{{
 	my $BIN_SCRIPTS = [
