@@ -20,6 +20,7 @@ sub decideDotfiles {#{{{
 		"oh-my-zsh",
 		"tmux.conf",
 		"gitconfig",
+		"config",
 	];
 	my $dotfiles = [];
 	push @$dotfiles, @$BASIC_FILES;
