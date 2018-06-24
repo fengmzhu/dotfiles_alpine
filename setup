@@ -21,6 +21,8 @@ sub decideDotfiles {#{{{
 		"tmux.conf",
 		"gitconfig",
 		"config",
+		"chunkwmrc",
+		"skhdrc",
 	];
 	my $dotfiles = [];
 	push @$dotfiles, @$BASIC_FILES;
