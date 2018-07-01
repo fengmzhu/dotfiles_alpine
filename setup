@@ -14,7 +14,7 @@ backupAndSymlink($dotfiles, $binScripts);
 sub decideDotfiles {#{{{
 	my ($shellType) = @_;
 	my $BASIC_FILES = [
-		"vimrc",
+		#"vimrc", #vim supports vimrc file in .vim folder
 		"vim",
 		"zshrc",
 		"oh-my-zsh",
@@ -98,7 +98,7 @@ sub updateGitRepo {#{{{
 	}
 }#}}}
 sub move_rc_out_of_folder {#{{{
-	system("ln vim/vimrc .") if (-d "vim" && !-e "vimrc");
+	#system("ln vim/vimrc .") if (-d "vim" && !-e "vimrc");
 	system("ln oh-my-zsh/zshrc .") if (-d "oh-my-zsh" && !-e "zshrc");
 }#}}}
 sub getBinScripts {#{{{
