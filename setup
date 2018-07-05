@@ -104,6 +104,7 @@ sub move_rc_out_of_folder {#{{{
 sub getBinScripts {#{{{
 	my $BIN_SCRIPTS = [
 		"git_diff_wrapper",
+		"latexdockercmd",
 	];
 	return $BIN_SCRIPTS;
 }#}}}

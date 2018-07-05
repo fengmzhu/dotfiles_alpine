@@ -1,0 +1,5 @@
+#!/bin/sh
+IMAGE=blang/latex:ubuntu #(:latest) - Dockerfile.ubuntu Ubuntu TexLive distribution: Old but stable, most needed package: texlive-full (3.9GB)
+#IMAGE=blang/latex:ctanbasic #- Dockerfile.basic CTAN TexLive Scheme-basic: Up-to-date, only basic packages, base for custom builds (500MB)
+#IMAGE=blang/latex:ctanfull #- Dockerfile.full CTAN TexLive Scheme-full: Up-to-date, all packages (5.6GB)
+exec docker run --rm -i --user="$(id -u):$(id -g)" --net=none -v "$PWD":/data "$IMAGE" "$@"
